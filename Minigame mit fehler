@@ -1,0 +1,109 @@
+import java.awt.Point;
+import java.util.Scanner;
+
+        
+public  class Snake {
+    public static void main(String[] args) {
+        //Objekte und Spielfeld erstellen
+        Point spielerPosition = new Point(19, 9);
+        Point GegnerPosition = new Point(19, 0);
+        Point WaffePosition = new Point(22, 8);
+        boolean WaffeEingesammelt = false;
+        boolean weiter = true;
+        Scanner scan = new Scanner(System.in);
+        String Tasteneingabe = scan.next();
+        double Würfelzahl = Math.random();
+        double Blockwert = 5;
+        while(weiter) {
+            for (int y = 0; y < 10; y++) {
+                for (int x = 0; x < 40; x++) {
+                    Point p = new Point(x, y);
+                    if (p.equals(spielerPosition))
+                        System.out.print("P");
+                    else if (p.equals(GegnerPosition))
+                        System.out.print("S");
+                    else if (p.equals(WaffePosition))
+                        System.out.print("W");
+                    else System.out.print(".");
+                    
+                }
+                System.out.println();
+            }
+            //Spiellogik
+            
+            if (spielerPosition.equals(WaffePosition)) {
+                WaffeEingesammelt = true;
+                WaffePosition = new Point(-1, -1);
+            }
+            if ( WaffeEingesammelt) {
+                
+                System.out.println("Waffe erhalten");
+            }
+            if (GegnerPosition.equals(spielerPosition)) {
+                
+                System.out.println("Der Kampf beginnt");
+                System.out.println("Der Gegner schwingt sein Schwert.Wuerfle(H) eine 5 oder hoeher zum Blocken");
+                switch (Tasteneingabe){
+                    case "H" ->{
+                     if(Würfelzahl.equals(Blockwert))
+                     (System.out.print("Du konntest den Schlag blocken.Wuerfle nun eine Zahl von 6 oder hoeher um deinen Gegner anzugreifen"));
+
+                     else
+                     (System.out.print("Du wurdest an der Halsschlagader getroffen und verblutest jaemmerlich auf dem pixligem Boden"));
+
+                     }
+
+                }
+
+                weiter = false;
+                
+    
+            }
+            bewegeSpieler(spielerPosition);
+            bewegeSchlange(GegnerPosition, spielerPosition);
+        }
+        
+             
+        }
+       
+
+    
+
+    private static void bewegeSchlange(Point schlangePosition, Point spielerPosition) {
+        if (spielerPosition.x < schlangePosition.x)
+            schlangePosition.x--;
+        else if (spielerPosition.x > schlangePosition.x)
+            schlangePosition.x++;
+        if (spielerPosition.y < schlangePosition.y)
+            schlangePosition.y--;
+        else if (spielerPosition.y > schlangePosition.y)
+            schlangePosition.y++;
+    }
+
+    private static void bewegeSpieler(Point spielerPosition) {
+        Scanner scan = new Scanner(System.in);
+        String input = scan.next();
+
+        //w,a,s,d
+        switch (input) {
+            case "w" -> {
+                if (spielerPosition.y > 0)
+                    spielerPosition.y--;
+            }
+            case "s" -> {
+                if (spielerPosition.y < 9)
+                    spielerPosition.y++;
+            }
+            case "a" -> {
+                if (spielerPosition.x > 0)
+                    spielerPosition.x--;
+            }
+            case "d" -> {
+                if (spielerPosition.x < 39 )
+                    spielerPosition.x++;
+            }
+            default -> {
+            }
+        }
+    }
+}
